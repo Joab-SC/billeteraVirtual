@@ -7,9 +7,9 @@ public class Transaccion {
     private int costo;
     private LocalDate fecha;
     private String codigo;
-    private String categoria;
     private BilleteraVirtual billeteraOrigen;
     private BilleteraVirtual billeteraDestinatario;
+    private Categoria categoria;
 
     public Transaccion(double valor, int costo, LocalDate fecha, String codigo, BilleteraVirtual billeteraOrigen,
      BilleteraVirtual billeteraDestinatario, Categoria categoria) {
@@ -17,8 +17,8 @@ public class Transaccion {
         this.costo = 200;
         this.fecha = fecha;
         this.codigo = codigo;
-        this.categoria = categoria;
         this.billeteraOrigen = billeteraOrigen;
+        this.categoria = categoria;
         
     }
 
