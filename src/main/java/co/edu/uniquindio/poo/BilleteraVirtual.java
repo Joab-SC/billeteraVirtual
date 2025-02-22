@@ -5,12 +5,18 @@ public class BilleteraVirtual {
     private double saldo;
     private String codigo;
     private ArrayList<Transaccion> transacciones;
+    private Usuario usuario;
 
     
-    public BilleteraVirtual(double saldo, String codigo, ArrayList<Transaccion> transacciones) {
+
+
+
+    public BilleteraVirtual(double saldo, String codigo, ArrayList<Transaccion> transacciones,
+        Usuario usuario) {
         this.saldo = saldo;
         this.codigo = codigo;
         this.transacciones = transacciones;
+        this.usuario = usuario;
     }
 
 
@@ -41,6 +47,16 @@ public class BilleteraVirtual {
 
     public void setTransacciones(ArrayList<Transaccion> transacciones) {
         this.transacciones = transacciones;
+    }
+
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+
+    public void setUsuario (Usuario usuario) {
+        this.usuario = usuario;
     }
 
 
