@@ -1,4 +1,5 @@
 package co.edu.uniquindio.poo;
+
 public class Usuario {
     private String nombre;
     private String direccion;
@@ -6,7 +7,6 @@ public class Usuario {
     private String correo;
     private String contrasena;
 
-    
     public Usuario(String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena) {
         this.nombre = nombre;
         this.direccion = direccion;
@@ -15,68 +15,51 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-
     public String getNombre() {
         return nombre;
     }
-
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-
     public String getDireccion() {
         return direccion;
     }
-
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 
-
     public String getNumeroIdentificacion() {
         return numeroIdentificacion;
     }
-
 
     public void setNumeroIdentificacion(String numeroIdentificacion) {
         this.numeroIdentificacion = numeroIdentificacion;
     }
 
-
     public String getCorreo() {
         return correo;
     }
-
 
     public void setCorreo(String correo) {
         this.correo = correo;
     }
 
-
     public String getContrasena() {
         return contrasena;
     }
-
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
 
-
-
     @Override
     public String toString() {
         return "Usuario [nombre=" + nombre + ", direccion=" + direccion + ", numeroIdentificacion="
-                + numeroIdentificacion + ", correo=" + correo + ", contrasena=" + contrasena 
+                + numeroIdentificacion + ", correo=" + correo + ", contrasena=" + contrasena
                 + "]";
     }
 
-
-
-
-
 }
-

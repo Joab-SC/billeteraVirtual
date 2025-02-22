@@ -5,5 +5,5 @@ public enum Categoria {
     FACTURAS,
     GASOLINA,
     EDUCACION
-    
+
 }
