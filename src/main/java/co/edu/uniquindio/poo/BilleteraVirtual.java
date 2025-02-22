@@ -139,6 +139,8 @@ public class BilleteraVirtual {
             throw new Exception("El valor de la Transacción debe ser positivo.");
         }
 
+        
+
         actualizarSaldos(billeteraDestino, valor, costo);
         Transaccion nuevaTransaccion = crearTransaccion(valor, costo, categoria, billeteraDestino);
 
