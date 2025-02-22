@@ -111,7 +111,7 @@ public class BilleteraVirtual {
     * Se Inicializa la transaaccion
     */
 
-    private Transaccion crearTransaccion(double valor, int costo, String categoria, BilleteraVirtual billeteraDestino) {
+    private Transaccion crearTransaccion(double valor, int costo, Categoria categoria, BilleteraVirtual billeteraDestino) {
         String codigoTransaccion = generarCodigoTransaccion();
         return new Transaccion(valor, costo, LocalDate.now(), codigoTransaccion, categoria, billeteraDestino, this);
     }
@@ -131,7 +131,7 @@ public class BilleteraVirtual {
     */
 
 
-    public void realizarTransaccion(BilleteraVirtual billeteraDestino, double valor, int costo, String categoria) throws Exception{
+    public void realizarTransaccion(BilleteraVirtual billeteraDestino, double valor, int costo, Categoria categoria) throws Exception{
         if (!saldoSuficiente(valor, costo)) {
             throw new Exception("Saldo insuficiente para realizar la transacción.");
         }
