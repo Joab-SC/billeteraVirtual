@@ -96,6 +96,8 @@ public class BilleteraVirtual {
         return this.saldo >= (valor + costo);
     }
 
+
+
     /**
     * Se actualiza el saldo del Destino 
     */
@@ -114,15 +116,27 @@ public class BilleteraVirtual {
         return new Transaccion(valor, costo, LocalDate.now(), codigoTransaccion, categoria, billeteraDestino, this);
     }
 
+    /**
+    * Se verifica que el valor enviado sea positivo
+    */
+
+    private boolean valorPositivo(double valor) {
+        return  valor > 0 ;
+    }
+
+
 
     /**
     * Se genera la Traansaccion y se le agrega a cada billetera
     */
 
 
-    public void realizarTransaccion(BilleteraVirtual billeteraDestino, double valor, int costo, String categoria){
+    public void realizarTransaccion(BilleteraVirtual billeteraDestino, double valor, int costo, String categoria) throws Exception{
         if (!saldoSuficiente(valor, costo)) {
-            throw new RuntimeException("Saldo insuficiente para realizar la transacción.");
+            throw new Exception("Saldo insuficiente para realizar la transacción.");
+        }
+        if (!valorPositivo(valor)) {
+            throw new Exception("El valor de la Transacción debe ser positivo.");
         }
 
         actualizarSaldos(billeteraDestino, valor, costo);
