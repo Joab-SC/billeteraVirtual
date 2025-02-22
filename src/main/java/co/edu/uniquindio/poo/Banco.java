@@ -45,7 +45,23 @@ public class Banco {
 
 
     /**
-     * Crear un usario dados todos sus
+     * Agregar una billetera a la lista de billeteras -> void
+     */
+    public void agregarBilletera(BilleteraVirtual billetera){
+        billeteras.add(billetera);
+    }
+
+    /**
+     * Eliminar una billetera de la lista de billeteras -> void
+     */
+    public void eliminarBilletera(BilleteraVirtual billetera){
+        billeteras.remove(billetera);
+    }
+
+
+
+    /**
+     * Crear un usario dados todos sus atributos -> Usuario
      */
     public Usuario CrearUsuario(String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena) {
         return new Usuario(nombre, direccion, numeroIdentificacion, correo, contrasena);
@@ -54,13 +70,19 @@ public class Banco {
     /**
      * Actualizar un usuario dados todos sus atributos -> void
      */
-    public void actualizarUsuario(Usuario usuario, String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena){
-        usuario.setNombre(nombre);
-        usuario.setDireccion(direccion);
-        usuario.setNumeroIdentificacion(numeroIdentificacion);
-        usuario.setCorreo(correo);
-        usuario.setContrasena(contrasena);
+    public void actualizarUsuario(Usuario usuarioNuevo, String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena) throws Exception{
+        Usuario usuarioBuscado = obtenerUsuario(usuarioNuevo.getNumeroIdentificacion());
+        if(usuarioBuscado == null){
+            throw new Exception("El uusario no existe");
+        }
+
+        usuarioBuscado.setNombre(nombre);
+        usuarioBuscado.setDireccion(direccion);
+        usuarioBuscado.setNumeroIdentificacion(numeroIdentificacion);
+        usuarioBuscado.setCorreo(correo);
+        usuarioBuscado.setContrasena(contrasena);
     }
+
 
     /**
      * Agregar un usuario a la lista de ususarios -> void
@@ -74,6 +96,18 @@ public class Banco {
      */
     public void eliminarUsuario(Usuario usuario){
         usuarios.remove(usuario);
+    }
+
+    /**
+     * Obtener un usuario con su id
+     */
+    public Usuario obtenerUsuario(String id){
+        for(Usuario usuario : usuarios){
+            if(usuario.getNumeroIdentificacion().equals(id)){
+                return usuario;
+            }
+        }
+        return null;
     }
 
     /**
@@ -117,6 +151,21 @@ public class Banco {
         }
         return numeroAleatorio.toString();
     }
+
+
+    /**
+     * Obtener una billetera con su usuario
+     */
+
+    public BilleteraVirtual obtenerBilletera(Usuario usuario){
+        for(BilleteraVirtual billetera: billeteras){
+            if(billetera.getUsuario().equals(usuario)){
+                return billetera;
+            }
+        }
+        return null;
+    }
+
 
 
 }
