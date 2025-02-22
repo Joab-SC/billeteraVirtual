@@ -8,14 +8,14 @@ public class Transaccion {
     private LocalDate fecha;
     private String codigo;
     private String categoria;
-    private Usuario destinatario;
-    private Usuario emisor;
+    private BilleteraVirtual destinatario;
+    private BilleteraVirtual emisor;
 
     
-    public Transaccion(double valor, int costo, LocalDate fecha, String codigo, String categoria, Usuario destinatario,
-            Usuario emisor) {
+    public Transaccion(double valor, int costo, LocalDate fecha, String codigo, String categoria,
+            BilleteraVirtual destinatario, BilleteraVirtual emisor) {
         this.valor = valor;
-        this.costo = 200;
+        this.costo = costo;
         this.fecha = fecha;
         this.codigo = codigo;
         this.categoria = categoria;
@@ -74,24 +74,25 @@ public class Transaccion {
     }
 
 
-    public Usuario getDestinatario() {
+    public BilleteraVirtual getDestinatario() {
         return destinatario;
     }
 
 
-    public void setDestinatario(Usuario destinatario) {
+    public void setDestinatario(BilleteraVirtual destinatario) {
         this.destinatario = destinatario;
     }
 
 
-    public Usuario getEmisor() {
+    public BilleteraVirtual getEmisor() {
         return emisor;
     }
 
 
-    public void setEmisor(Usuario emisor) {
+    public void setEmisor(BilleteraVirtual emisor) {
         this.emisor = emisor;
     }
 
-    
+
+
 }

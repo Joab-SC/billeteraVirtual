@@ -5,17 +5,14 @@ public class Usuario {
     private String numeroIdentificacion;
     private String correo;
     private String contrasena;
-    private BilleteraVirtual billeteraVirtual;
 
     
-    public Usuario(String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena,
-            BilleteraVirtual billeteraVirtual) {
+    public Usuario(String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.numeroIdentificacion = numeroIdentificacion;
         this.correo = correo;
         this.contrasena = contrasena;
-        this.billeteraVirtual = billeteraVirtual;
     }
 
 
@@ -69,21 +66,12 @@ public class Usuario {
     }
 
 
-    public BilleteraVirtual getBilleteraVirtual() {
-        return billeteraVirtual;
-    }
-
-
-    public void setBilleteraVirtual(BilleteraVirtual billeteraVirtual) {
-        this.billeteraVirtual = billeteraVirtual;
-    }
-
 
     @Override
     public String toString() {
         return "Usuario [nombre=" + nombre + ", direccion=" + direccion + ", numeroIdentificacion="
-                + numeroIdentificacion + ", correo=" + correo + ", contrasena=" + contrasena + ", billeteraVirtual="
-                + billeteraVirtual + "]";
+                + numeroIdentificacion + ", correo=" + correo + ", contrasena=" + contrasena 
+                + "]";
     }
 
 
