@@ -94,5 +94,14 @@ public class Transaccion {
     }
 
 
+    @Override
+    public String toString() {
+        return "Transaccion [valor=" + valor + ", costo=" + costo + ", fecha=" + fecha + ", codigo=" + codigo
+                + ", categoria=" + categoria + ", destinatario=" + destinatario + ", emisor=" + emisor + "]";
+    }
+
+    
+
+
 
 }

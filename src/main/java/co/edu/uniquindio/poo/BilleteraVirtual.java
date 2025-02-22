@@ -7,9 +7,6 @@ public class BilleteraVirtual {
     private ArrayList<Transaccion> transacciones;
     private Usuario usuario;
 
-    
-
-
 
     public BilleteraVirtual(double saldo, String codigo, ArrayList<Transaccion> transacciones,
         Usuario usuario) {
@@ -57,6 +54,15 @@ public class BilleteraVirtual {
 
     public void setUsuario (Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public double consultarSaldo(){
+        return getSaldo();
+
+    }
+
+    public String consultarTransacciones(){
+        for 
     }
 
 
