@@ -48,7 +48,7 @@ public class Banco {
      * Crear un usario dados todos sus
      */
     public Usuario CrearUsuario(String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena) {
-        return new Usuario(nombre, direccion, numeroIdentificacion, correo, contrasena, null);
+        return new Usuario(nombre, direccion, numeroIdentificacion, correo, contrasena);
     }
 
     /**
