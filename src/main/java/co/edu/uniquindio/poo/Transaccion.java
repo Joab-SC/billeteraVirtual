@@ -7,20 +7,22 @@ public class Transaccion {
     private int costo;
     private LocalDate fecha;
     private String codigo;
-    private BilleteraVirtual billeteraOrigen;
-    private BilleteraVirtual billeteraDestinatario;
-    private Categoria categoria;
+    private String categoria;
+    private BilleteraVirtual destinatario;
+    private BilleteraVirtual emisor;
 
-    public Transaccion(double valor, int costo, LocalDate fecha, String codigo, BilleteraVirtual billeteraOrigen,
-     BilleteraVirtual billeteraDestinatario, Categoria categoria) {
+    
+    public Transaccion(double valor, int costo, LocalDate fecha, String codigo, String categoria,
+            BilleteraVirtual destinatario, BilleteraVirtual emisor) {
         this.valor = valor;
-        this.costo = 200;
+        this.costo = costo;
         this.fecha = fecha;
         this.codigo = codigo;
-        this.billeteraOrigen = billeteraOrigen;
         this.categoria = categoria;
-        
+        this.destinatario = destinatario;
+        this.emisor = emisor;
     }
+
 
     public double getValor() {
         return valor;
@@ -61,36 +63,45 @@ public class Transaccion {
         this.codigo = codigo;
     }
 
-    public Categoria getCategoria() {
+
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Categoria categoria) {
+
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
-    
-    public BilleteraVirtual getBilleteraOrigen() {
-        return billeteraOrigen;
+
+
+    public BilleteraVirtual getDestinatario() {
+        return destinatario;
     }
 
-    public void setBilleteraOrigen(BilleteraVirtual billeteraOrigen) {
-        this.billeteraOrigen = billeteraOrigen;
+
+    public void setDestinatario(BilleteraVirtual destinatario) {
+        this.destinatario = destinatario;
     }
 
-    public BilleteraVirtual getBilleteraDestinatario() {
-        return billeteraDestinatario;
+
+    public BilleteraVirtual getEmisor() {
+        return emisor;
     }
 
-    public void setBilleteraDestinatario(BilleteraVirtual billeteraDestinatario) {
-        this.billeteraDestinatario = billeteraDestinatario;
+
+    public void setEmisor(BilleteraVirtual emisor) {
+        this.emisor = emisor;
     }
+
 
     @Override
     public String toString() {
         return "Transaccion [valor=" + valor + ", costo=" + costo + ", fecha=" + fecha + ", codigo=" + codigo
-                + ", categoria=" + categoria + ", billeteraOrigen=" + billeteraOrigen + ", billeteraDestinatario="
-                + billeteraDestinatario + "]";
+                + ", categoria=" + categoria + ", destinatario=" + destinatario + ", emisor=" + emisor + "]";
     }
-  
+
     
+
+
+
 }
