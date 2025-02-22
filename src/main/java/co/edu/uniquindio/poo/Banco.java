@@ -77,6 +77,32 @@ public class Banco {
     }
 
     /**
+     * Crear la billetera con sus respectivos atributos -> Billetera
+     */
+    public BilleteraVirtual crearBilletera(double saldo, Usuario usuario) throws Exception {
+        String codigo = generarNumeroAleatorio(10);
+        if (billeteraRepetida(codigo)){
+            throw new Exception("Ya existe una billetera con ese codigo");
+        }
+
+        return new BilleteraVirtual(saldo, codigo, usuario);
+    }
+
+    /**
+     * Revisar que no hayan billeteras repetidas
+     */
+    public boolean billeteraRepetida(String codigo){
+        for(BilleteraVirtual billetera: billeteras){
+            if(billetera.getCodigo().equals(codigo)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+    /**
      * Generar un número aleatorio con una cantidad de digitos predeterminada -> String
      */
     public static String generarNumeroAleatorio(int digitos) throws  Exception{
