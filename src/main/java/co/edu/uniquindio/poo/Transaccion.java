@@ -86,6 +86,13 @@ public class Transaccion {
     public void setBilleteraDestinatario(BilleteraVirtual billeteraDestinatario) {
         this.billeteraDestinatario = billeteraDestinatario;
     }
+
+    @Override
+    public String toString() {
+        return "Transaccion [valor=" + valor + ", costo=" + costo + ", fecha=" + fecha + ", codigo=" + codigo
+                + ", categoria=" + categoria + ", billeteraOrigen=" + billeteraOrigen + ", billeteraDestinatario="
+                + billeteraDestinatario + "]";
+    }
   
     
 }
