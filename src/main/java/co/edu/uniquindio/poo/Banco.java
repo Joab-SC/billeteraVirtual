@@ -77,14 +77,12 @@ public class Banco {
     }
 
     /**
-     * Crear la billetera con sus respectivos atributos -> Billetera
+     * Generar un número aleatorio con una cantidad de digitos predeterminada -> String
      */
-    public void crearBilletera(BilleteraVirtual billeraVirtual){}
-
-    /**
-     * Generar un némero aleatorio con una cantidad de digitos predeterminada -> String
-     */
-    public static String generarNumeroAleatorio(int digitos){
+    public static String generarNumeroAleatorio(int digitos) throws  Exception{
+        if(digitos <= 0){
+            throw new Exception("Los digitos deben ser mayores que 0");
+        }
         StringBuilder numeroAleatorio = new StringBuilder();
         int digito;
         for(int i = 0; i < digitos; i++){
@@ -93,4 +91,6 @@ public class Banco {
         }
         return numeroAleatorio.toString();
     }
+
+
 }

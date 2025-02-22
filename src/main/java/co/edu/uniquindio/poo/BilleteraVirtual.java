@@ -11,11 +11,11 @@ public class BilleteraVirtual {
 
 
 
-    public BilleteraVirtual(double saldo, String codigo, ArrayList<Transaccion> transacciones,
+    public BilleteraVirtual(double saldo, String codigo,
         Usuario usuario) {
         this.saldo = saldo;
         this.codigo = codigo;
-        this.transacciones = transacciones;
+        this.transacciones = new ArrayList<>();
         this.usuario = usuario;
     }
 
