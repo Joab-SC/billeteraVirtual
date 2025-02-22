@@ -11,8 +11,8 @@ public class Transaccion {
     private BilleteraVirtual billeteraOrigen;
     private BilleteraVirtual billeteraDestinatario;
 
-    public Transaccion(double valor, int costo, LocalDate fecha, String codigo, String categoria, BilleteraVirtual billeteraOrigen,
-     BilleteraVirtual billeteraDestinatario) {
+    public Transaccion(double valor, int costo, LocalDate fecha, String codigo, BilleteraVirtual billeteraOrigen,
+     BilleteraVirtual billeteraDestinatario, Categoria categoria) {
         this.valor = valor;
         this.costo = 200;
         this.fecha = fecha;
@@ -61,16 +61,14 @@ public class Transaccion {
         this.codigo = codigo;
     }
 
-
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-
+    
     public BilleteraVirtual getBilleteraOrigen() {
         return billeteraOrigen;
     }
