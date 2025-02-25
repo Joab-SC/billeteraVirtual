@@ -52,7 +52,6 @@ public class BilleteraVirtual {
 
     public double consultarSaldo() {
         return getSaldo();
-
     }
 
     /**

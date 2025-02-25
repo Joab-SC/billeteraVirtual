@@ -15,7 +15,7 @@ public class BilleteraVirtualTest {
     private BilleteraVirtual billeteraDestino;
 
     @BeforeEach
-    public void crearDatosPrueba() {
+    public void crearDatosPrueba() throws Exception{
         // Se crea el banco y se agregan los usuarios
         banco = new Banco("Banco Test");
         usuarioOrigen = new Usuario("Origen", "Dirección 1", "111", "origen@mail.com", "pass");
