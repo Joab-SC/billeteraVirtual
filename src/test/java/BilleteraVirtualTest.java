@@ -1,10 +1,11 @@
 import static org.junit.jupiter.api.Assertions.*;
+
+import co.edu.uniquindio.poo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import co.edu.uniquindio.poo.Banco;
-import co.edu.uniquindio.poo.BilleteraVirtual;
-import co.edu.uniquindio.poo.Usuario;
-import co.edu.uniquindio.poo.Categoria; // Se asume que existe esta clase o enum
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class BilleteraVirtualTest {
 
@@ -99,4 +100,7 @@ public class BilleteraVirtualTest {
         assertFalse(billeteraOrigen.getTransacciones().isEmpty());
         assertFalse(billeteraDestino.getTransacciones().isEmpty());
     }
+
 }
+
+

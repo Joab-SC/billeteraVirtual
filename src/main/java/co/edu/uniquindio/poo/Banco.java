@@ -43,6 +43,29 @@ public class Banco {
         this.billeteras = billeteras;
     }
 
+    /**
+     * Obtener las transacciones del banco -> ArrayList<Transacciones>
+     */
+
+    public ArrayList<Transaccion> obtenerTransacciones(){
+        ArrayList<Transaccion> transacciones = new ArrayList<>();
+        for(BilleteraVirtual billetera : billeteras){
+            transacciones.addAll(billetera.getTransacciones());
+        }
+        return transacciones;
+    }
+
+    /**
+     * Crear la billetera con sus respectivos atributos -> Billetera
+     */
+    public static BilleteraVirtual crearBilletera(double saldo, Usuario usuario) throws Exception {
+        if(saldo < 0 ){
+            throw new Exception("El saldo no puede ser negativo");
+        }
+        String codigo = generarNumeroAleatorio(10);
+        return new BilleteraVirtual(saldo, codigo, usuario);
+    }
+
 
     /**
      * Agregar una billetera a la lista de billeteras -> void
@@ -62,13 +85,49 @@ public class Banco {
         billeteras.remove(billetera);
     }
 
+    /**
+     * Revisar que no hayan billeteras repetidas -> boolean
+     */
+    public boolean billeteraExistente(String codigo){
+        for(BilleteraVirtual billetera: billeteras){
+            if(billetera.getCodigo().equals(codigo)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Obtener una billetera con su usuario -> BilleteraVirtual
+     */
+
+    public BilleteraVirtual obtenerBilletera(Usuario usuario) throws Exception{
+        for(BilleteraVirtual billetera: billeteras){
+            if(billetera.getUsuario().equals(usuario)){
+                return billetera;
+            }
+        }
+        throw new Exception("El usuario no existe");
+    }
+
 
 
     /**
      * Crear un usuario dados todos sus atributos -> Usuario
      */
-    public Usuario CrearUsuario(String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena) {
+    public static Usuario crearUsuario(String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena) {
         return new Usuario(nombre, direccion, numeroIdentificacion, correo, contrasena);
+    }
+
+    /**
+     * Agregar un usuario a la lista de usuarios -> void
+     */
+    public void agregarUsuario(Usuario usuario) throws Exception{
+        if(usuarioExistente(usuario.getNumeroIdentificacion(), usuario.getContrasena())){
+            throw new Exception("Ya existe un usuario con ese id y contrasena");
+        }
+
+        usuarios.add(usuario);
     }
 
     /**
@@ -76,9 +135,6 @@ public class Banco {
      */
     public void actualizarUsuario(Usuario usuarioNuevo, String nombre, String direccion, String numeroIdentificacion, String correo, String contrasena) throws Exception{
         Usuario usuarioBuscado = obtenerUsuario(usuarioNuevo.getNumeroIdentificacion(), usuarioNuevo.getContrasena());
-        if(usuarioBuscado == null){
-            throw new Exception("El uusario no existe");
-        }
 
         if(usuarioExistente(numeroIdentificacion, contrasena)){
             throw new Exception("No se puede actualizar un usuario con id y contrasena repetidas");
@@ -91,17 +147,6 @@ public class Banco {
         usuarioBuscado.setContrasena(contrasena);
     }
 
-
-    /**
-     * Agregar un usuario a la lista de usuarios -> void
-     */
-    public void agregarUsuario(Usuario usuario) throws Exception{
-        if(usuarioExistente(usuario.getNumeroIdentificacion(), usuario.getContrasena())){
-            throw new Exception("Ya existe un usuario con ese id y contrasena");
-        }
-
-        usuarios.add(usuario);
-}
 
     /**
      * Eliminar un ususario de la lista de usuarios -> void
@@ -123,41 +168,16 @@ public class Banco {
     }
 
     /**
-     * Crear la billetera con sus respectivos atributos -> Billetera
-     */
-    public BilleteraVirtual crearBilletera(double saldo, Usuario usuario) throws Exception {
-        if(saldo < 0 ){
-            throw new Exception("El saldo no puede ser negativo");
-        }
-        String codigo = generarNumeroAleatorio(10);
-        return new BilleteraVirtual(saldo, codigo, usuario);
-    }
-
-    /**
      * Revisar que no usuarios repetidos -> boolean
      */
     public boolean usuarioExistente(String id, String contrasena){
         for(Usuario usuario : usuarios){
             if(usuario.getNumeroIdentificacion().equals(id) && usuario.getContrasena().equals(contrasena)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
-
-    /**
-     * Revisar que no hayan billeteras repetidas -> boolean
-     */
-    public boolean billeteraExistente(String codigo){
-        for(BilleteraVirtual billetera: billeteras){
-            if(billetera.getCodigo().equals(codigo)){
-                return false;
-            }
-        }
-        return true;
-    }
-
-
 
     /**
      * Generar un número aleatorio con una cantidad de digitos predeterminada -> String
@@ -193,20 +213,5 @@ public class Banco {
         return consulta;
 
     }
-
-    /**
-     * Obtener una billetera con su usuario -> BilleteraVirtual
-     */
-
-    public BilleteraVirtual obtenerBilletera(Usuario usuario) throws Exception{
-        for(BilleteraVirtual billetera: billeteras){
-            if(billetera.getUsuario().equals(usuario)){
-                return billetera;
-            }
-        }
-        throw new Exception("El usuario no existe");
-    }
-
-
 
 }

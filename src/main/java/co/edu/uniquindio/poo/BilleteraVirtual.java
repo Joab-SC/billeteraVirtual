@@ -1,6 +1,7 @@
 package co.edu.uniquindio.poo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -55,6 +56,14 @@ public class BilleteraVirtual {
     }
 
     /**
+     * Se agrega la transacción a la lista de transacciones
+     */
+
+    private void agregarTransaccion(Transaccion transaccion){
+        transacciones.add(transaccion);
+    }
+
+    /**
      * se genera el UUID de la transacción
      */
 
@@ -100,7 +109,7 @@ public class BilleteraVirtual {
     private Transaccion crearTransaccion(double valor, int costo, Categoria categoria,
             BilleteraVirtual billeteraDestino) {
         String codigoTransaccion = generarCodigoTransaccion();
-        return new Transaccion(valor, costo, LocalDate.now(), codigoTransaccion, categoria, billeteraDestino, this);
+        return new Transaccion(valor, LocalDateTime.now(), codigoTransaccion, categoria, billeteraDestino, this);
     }
 
     /**
@@ -127,8 +136,88 @@ public class BilleteraVirtual {
         actualizarSaldos(billeteraDestino, valor, costo);
         Transaccion nuevaTransaccion = crearTransaccion(valor, costo, categoria, billeteraDestino);
 
-        this.transacciones.add(nuevaTransaccion);
+        agregarTransaccion(nuevaTransaccion);
         billeteraDestino.getTransacciones().add(nuevaTransaccion);
+    }
+
+    /**
+     * Calcular el porcentaje de gastos o ingresos totales con una bandera -> double
+     */
+    public double calcularPorcentajeGastosIngresosTotales(LocalDateTime fechaInicio, LocalDateTime fechaFinal, boolean gastos) throws Exception {
+
+        if(fechaInicio.isAfter(fechaFinal)){
+            throw new Exception("La fecha de inicio debe de ser antes de la fecha final");
+        }
+        ArrayList<Transaccion> transaccionesFilatradas = obtenerTransaccionesFiltradasFecha(fechaInicio, fechaFinal);
+        double ingresosTotales = 0;
+        double gastosTotales = 0;
+
+        for (Transaccion transaccion : transaccionesFilatradas) {
+            if(this.equals(transaccion.getEmisor())){
+                gastosTotales+=transaccion.getValor();
+            }
+            else if(this.equals(transaccion.getDestinatario())){
+                ingresosTotales+=transaccion.getValor();
+            }
+        }
+
+        double total = ingresosTotales+gastosTotales;
+
+        if(gastos){
+            return (gastosTotales/total)*100;
+        }
+        return (ingresosTotales/total)*100;
+
+
+    }
+
+    public double calcularPorcentajeGastosIngresosCategoria (LocalDateTime fechaInicio, LocalDateTime fechaFinal, Categoria categoria,boolean gastos) throws Exception{
+
+        if(fechaInicio.isAfter(fechaFinal)){
+            throw new Exception("La fecha de inicio debe de ser antes de la fecha final");
+        }
+        ArrayList<Transaccion> transaccionesFilatradas = obtenerTransaccionesFiltradasCategoria(fechaInicio, fechaFinal, categoria);
+        double ingresosTotales = 0;
+        double gastosTotales = 0;
+
+        for (Transaccion transaccion : transaccionesFilatradas) {
+            if(this.equals(transaccion.getEmisor())){
+                gastosTotales+=transaccion.getValor();
+            }
+            else if(this.equals(transaccion.getDestinatario())){
+                ingresosTotales+=transaccion.getValor();
+            }
+        }
+
+        double total = ingresosTotales+gastosTotales;
+
+        if(gastos){
+            return (gastosTotales/total)*100;
+        }
+        return (ingresosTotales/total)*100;
+
+
+    }
+
+    public ArrayList<Transaccion> obtenerTransaccionesFiltradasFecha(LocalDateTime fechaInicio, LocalDateTime fechaFinal){
+        ArrayList<Transaccion> transaccionesFilatradas = new ArrayList<>();
+        for(Transaccion transaccion : transacciones) {
+            if(transaccion.getFecha().isAfter(fechaInicio) && transaccion.getFecha().isBefore(fechaFinal)){
+                transaccionesFilatradas.add(transaccion);
+            }
+        }
+        return transaccionesFilatradas;
+    }
+
+    public ArrayList<Transaccion> obtenerTransaccionesFiltradasCategoria(LocalDateTime fechaInicio, LocalDateTime fechaFinal, Categoria categoria){
+        ArrayList<Transaccion> transaccionesFiltradas = obtenerTransaccionesFiltradasFecha(fechaInicio, fechaFinal);
+        ArrayList<Transaccion> transaccionesCategorias = new ArrayList<>();
+        for(Transaccion transaccion: transaccionesFiltradas){
+            if(transaccion.getCategoria().equals(categoria)){
+                transaccionesCategorias.add(transaccion);
+            }
+        }
+        return transaccionesCategorias;
     }
 
 }

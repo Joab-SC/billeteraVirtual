@@ -1,20 +1,21 @@
 package co.edu.uniquindio.poo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Transaccion {
     private double valor;
     private int costo;
-    private LocalDate fecha;
+    private LocalDateTime fecha;
     private String codigo;
     private Categoria categoria;
     private BilleteraVirtual destinatario;
     private BilleteraVirtual emisor;
 
-    public Transaccion(double valor, int costo, LocalDate fecha, String codigo, Categoria categoria,
+    public Transaccion(double valor, LocalDateTime fecha, String codigo, Categoria categoria,
             BilleteraVirtual destinatario, BilleteraVirtual emisor) {
         this.valor = valor;
-        this.costo = costo;
+        this.costo = 200;
         this.fecha = fecha;
         this.codigo = codigo;
         this.categoria = categoria;
@@ -38,11 +39,11 @@ public class Transaccion {
         this.costo = costo;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

@@ -1,4 +1,5 @@
 import co.edu.uniquindio.poo.Banco;
+import co.edu.uniquindio.poo.BilleteraVirtual;
 import co.edu.uniquindio.poo.Usuario;
 
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,24 @@ import java.util.ArrayList;
 
 public class BancoTest {
 
+    Banco banco = new Banco("Davivienda");
+    Usuario usuario1 = new Usuario("Carlos", "Av. Siempre Viva", "987654321", "carlos@mail.com", "password123");
+    Usuario usuario2 = new Usuario("Maicol", "Caicedonia", "124234234", "maicol@mail.com", "michkael123");
+    Usuario usuario3 = new Usuario("Sergio", "Armenia", "124234234", "maicol@mail.com", "michkael123");
+
+    @Test
+    public void crearBilleteraTest() throws Exception {
+        BilleteraVirtual billetera1 = Banco.crearBilletera(2000, null );
+        BilleteraVirtual billetera = new BilleteraVirtual(2000, billetera1.getCodigo(), null);
+
+        assertEquals(billetera1.getSaldo(), billetera.getSaldo());
+        assertEquals(billetera1.getTransacciones(), billetera.getTransacciones());
+        assertEquals(billetera1.getCodigo(), billetera.getCodigo());
+        assertEquals(billetera1.getUsuario(), billetera.getUsuario());
+        assertEquals(billetera1.getSaldo(), billetera.getSaldo());
+    }
+
+
     @Test
     public void crearNumeroAletatorioTest() throws Exception {
         String numeroAleatorio = Banco.generarNumeroAleatorio(10);
@@ -16,103 +35,29 @@ public class BancoTest {
 
     @Test
     public void crearUsuarioTest() {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-        Usuario usuario1 = new Usuario("Carlos", "Av. Siempre Viva", "987654321", "carlos@mail.com", "password123");
-
-        assertDoesNotThrow(() -> {
-            usuarios.add(usuario1);
-        });
-        assertTrue(usuarios.contains(usuario1));
+        Usuario usuario2 = Banco.crearUsuario("Carlos", "Av. Siempre Viva", "987654321", "carlos@mail.com", "password123");
+        assertEquals(usuario1.getNombre(), usuario2.getNombre());
+        assertEquals(usuario1.getNumeroIdentificacion(), usuario2.getNumeroIdentificacion());
+        assertEquals(usuario1.getContrasena(), usuario2.getContrasena());
+        assertEquals(usuario1.getCorreo(), usuario2.getCorreo());
+        assertEquals(usuario1.getDireccion(), usuario2.getDireccion());
     }
 
-    @Test
-    public void actualizarUsuarioTest() {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-
-        // Se crea y agrega un usuario inicial
-        Usuario usuario = new Usuario("maicol", "calle6", "123456789", "dhsgvff@", "vfvfvf");
-        usuarios.add(usuario);
-
-        // Se crea un nuevo usuario con datos actualizados
-        Usuario usuarioActualizado = new Usuario("maicol", "calle10", "987654321", "nuevoCorreo@mail.com", "nuevaClave");
-
-        // Se espera que no se lance ninguna excepción al actualizar
-        assertDoesNotThrow(() -> {
-            for (int i = 0; i < usuarios.size(); i++) {
-                if (usuarios.get(i).getNombre().equals(usuarioActualizado.getNombre())) {
-                    usuarios.set(i, usuarioActualizado);
-                    break;
-                }
-            }
-        });
-
-        // Se obtiene el usuario actualizado
-        Usuario usuarioEncontrado = usuarios.stream()
-                .filter(u -> u.getNombre().equals("maicol"))
-                .findFirst()
-                .orElse(null);
-
-        // Se espera que el usuario no sea nulo y que tenga los datos actualizados
-        assertNotNull(usuarioEncontrado);
-        assertEquals("calle10", usuarioEncontrado.getDireccion());
-        assertEquals("987654321", usuarioEncontrado.getContrasena());
-        assertEquals("nuevoCorreo@mail.com", usuarioEncontrado.getCorreo());
-    }
 
     @Test
-    public void agregarUsuarioTest() {
+    public void agregarUsuarioTest() throws Exception {
         // Se crea una lista de usuarios
-        ArrayList<Usuario> usuarios = new ArrayList<>();
+        banco.agregarUsuario(usuario1);
+        banco.agregarUsuario(usuario2);
+        assertTrue(banco.getUsuarios().contains(usuario1) && banco.getUsuarios().contains(usuario2));
+        assertThrows(Throwable.class, () -> banco.agregarUsuario(usuario3));
 
-        // Se crea un nuevo usuario con los atributos específicos
-        Usuario nuevoUsuario = new Usuario("Maicol", "Calle 6", "123456789", "maicol@mail.com", "password123");
 
-        // Se espera que no se lance ninguna excepción al agregar el usuario
-        assertDoesNotThrow(() -> {
-            usuarios.add(nuevoUsuario);
-        });
 
-        // Se busca el usuario en la lista
-        Usuario usuarioAgregado = usuarios.stream()
-                .filter(u -> u.getNumeroIdentificacion().equals("123456789"))
-                .findFirst()
-                .orElse(null);
-
-        // Se espera que el usuario haya sido agregado correctamente
-        assertNotNull(usuarioAgregado);
-        assertEquals("Maicol", usuarioAgregado.getNombre());
-        assertEquals("Calle 6", usuarioAgregado.getDireccion());
-        assertEquals("123456789", usuarioAgregado.getNumeroIdentificacion());
-        assertEquals("maicol@mail.com", usuarioAgregado.getCorreo());
-        assertEquals("password123", usuarioAgregado.getContrasena());
     }
 
     @Test
-    public void eliminarUsuarioTest() {
-        // Se crea ua lista de usuarios
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-
-        // Se agrega un usuario a la lista
-        Usuario usuario = new Usuario("Maicol", "Calle 6", "123456789", "maicol@mail.com", "password123");
-        usuarios.add(usuario);
-
-        // Se espera que no se lance ninguna excepción al eliminar el usuario con identificación 123456789
-        assertDoesNotThrow(() -> {
-            usuarios.removeIf(u -> u.getNumeroIdentificacion().equals("123456789"));
-        });
-
-        // Se busca el usuario en la lista después de eliminarlo
-        Usuario usuarioEliminado = usuarios.stream()
-                .filter(u -> u.getNumeroIdentificacion().equals("123456789"))
-                .findFirst()
-                .orElse(null);
-
-        // Se espera que el usuario ya no exista en la lista
-        assertNull(usuarioEliminado);
-    }
-
-    @Test
-    public void crearNumeroAletorioNegativo() throws Exception {
+    public void crearNumeroAletorioNegativoTest() throws Exception {
         assertThrows(Throwable.class, () -> Banco.generarNumeroAleatorio(-2));
     }
 }
