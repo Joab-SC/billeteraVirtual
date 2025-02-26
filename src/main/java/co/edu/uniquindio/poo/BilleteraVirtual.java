@@ -88,7 +88,6 @@ public class BilleteraVirtual {
     /**
      * Se verifica que tengasaldo suficiente para sealizar la transacción
      */
-
     private boolean saldoSuficiente(double valor, int costo) {
         return this.saldo >= (valor + costo);
     }
@@ -96,16 +95,24 @@ public class BilleteraVirtual {
     /**
      * Se actualiza el saldo del Destino
      */
-
     private void actualizarSaldos(BilleteraVirtual billeteraDestino, double valor, int costo) {
         this.saldo -= (valor + costo);
         billeteraDestino.setSaldo(billeteraDestino.getSaldo() + valor);
     }
 
     /**
+     * Se recarga la billetera
+     */
+    public void recargarBilletera(double recarga) throws Exception {
+        if(recarga < 0){
+            throw new Exception("Recarga Negativa");
+        }
+        this.saldo += recarga;
+    }
+
+    /**
      * Se Inicializa la transaaccion
      */
-
     private Transaccion crearTransaccion(double valor, int costo, Categoria categoria,
             BilleteraVirtual billeteraDestino) {
         String codigoTransaccion = generarCodigoTransaccion();
@@ -115,7 +122,6 @@ public class BilleteraVirtual {
     /**
      * Se verifica que el valor enviado sea positivo
      */
-
     private boolean valorPositivo(double valor) {
         return valor > 0;
     }
@@ -123,7 +129,6 @@ public class BilleteraVirtual {
     /**
      * Se genera la Traansaccion y se le agrega a cada billetera
      */
-
     public void realizarTransaccion(BilleteraVirtual billeteraDestino, double valor, int costo, Categoria categoria)
             throws Exception {
         if (!saldoSuficiente(valor, costo)) {

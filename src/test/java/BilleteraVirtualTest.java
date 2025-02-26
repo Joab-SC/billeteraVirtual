@@ -101,6 +101,11 @@ public class BilleteraVirtualTest {
         assertFalse(billeteraDestino.getTransacciones().isEmpty());
     }
 
+    @Test
+    public void recargarBilleteraTest(){
+        assertThrows(Exception.class, () -> billeteraOrigen.recargarBilletera(-23.0));
+    }
+
 }
 
 
