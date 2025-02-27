@@ -4,8 +4,10 @@ import co.edu.uniquindio.poo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BilleteraVirtualTest {
 
@@ -14,6 +16,9 @@ public class BilleteraVirtualTest {
     private Usuario usuarioDestino;
     private BilleteraVirtual billeteraOrigen;
     private BilleteraVirtual billeteraDestino;
+    private Transaccion transaccion1;
+    private Transaccion transaccion2;
+    private Transaccion transaccion3;
 
     @BeforeEach
     public void crearDatosPrueba() throws Exception{
@@ -27,6 +32,9 @@ public class BilleteraVirtualTest {
         // Se crean las billeteras y se agregan al banco
         billeteraOrigen = new BilleteraVirtual(100.0, "codOrigen", usuarioOrigen);
         billeteraDestino = new BilleteraVirtual(50.0, "codDestino", usuarioDestino);
+        transaccion1 = new Transaccion(200.0, LocalDateTime.now(), "1234h", Categoria.VIAJES, billeteraDestino, billeteraOrigen);
+        transaccion2 = new Transaccion(400.0, LocalDateTime.now(), "1234h", Categoria.GASOLINA, billeteraDestino, billeteraOrigen);
+        transaccion3 = new Transaccion(2000.0, LocalDateTime.now(), "1234h", Categoria.VIAJES, billeteraOrigen, billeteraDestino);
         banco.getBilleteras().add(billeteraOrigen);
         banco.getBilleteras().add(billeteraDestino);
     }
@@ -104,6 +112,74 @@ public class BilleteraVirtualTest {
     @Test
     public void recargarBilleteraTest(){
         assertThrows(Exception.class, () -> billeteraOrigen.recargarBilletera(-23.0));
+    }
+
+    @Test
+    public void obtenerTransaccionesFiltradasFechaTest(){
+        Transaccion transaccion = new Transaccion(200, LocalDateTime.now(), "1234h", Categoria.VIAJES, billeteraDestino, billeteraOrigen);
+    }
+
+    @Test
+    public void calcularPorcentajeGastosIngresosTotalesTest() throws Exception{
+
+        billeteraOrigen.agregarTransaccion(transaccion1);
+        billeteraOrigen.agregarTransaccion(transaccion2);
+        billeteraOrigen.agregarTransaccion(transaccion3);
+        billeteraDestino.agregarTransaccion(transaccion1);
+        billeteraDestino.agregarTransaccion(transaccion2);
+        billeteraDestino.agregarTransaccion(transaccion3);
+
+        double valorEsperadoGastos = (600.0/2600.0)*100.0;
+        System.out.println(billeteraOrigen.getTransacciones());
+        System.out.println(billeteraDestino.getTransacciones());
+        assertEquals(valorEsperadoGastos, billeteraOrigen.calcularPorcentajeGastosIngresosTotales(LocalDateTime.of(2000, 12, 8, 1,2,2), LocalDateTime.of(2030, 12, 8, 1,2,2), true));
+
+        double valorEsperadoIngresos = (2000.0/2600.0)*100.0;
+        assertEquals(valorEsperadoIngresos, billeteraOrigen.calcularPorcentajeGastosIngresosTotales(LocalDateTime.of(2000, 12, 8, 1,2,2), LocalDateTime.of(2030, 12, 8, 1,2,2), false));
+
+    }
+
+    @Test
+    public void calcularPorcentajeGastosIngresosTotalesErrorTest() throws Exception{
+        BilleteraVirtual billetera1 = new BilleteraVirtual( 5000.0, "123409890", null);
+
+        assertThrows(Throwable.class, () -> billetera1.calcularPorcentajeGastosIngresosTotales(LocalDateTime.of(2030, 12, 8, 1,2,2), LocalDateTime.of(2000, 12, 8, 1,2,2), false));
+
+    }
+
+    @Test
+    public void calcularPorcentajeGastosIngresosTotalesCategoriaTest() throws Exception{
+
+        billeteraOrigen.agregarTransaccion(transaccion1);
+        billeteraOrigen.agregarTransaccion(transaccion2);
+        billeteraOrigen.agregarTransaccion(transaccion3);
+        billeteraDestino.agregarTransaccion(transaccion1);
+        billeteraDestino.agregarTransaccion(transaccion2);
+        billeteraDestino.agregarTransaccion(transaccion3);
+
+        double valorEsperadoGastos = (200.0/2200.0)*100.0;
+        assertEquals(valorEsperadoGastos, billeteraOrigen.calcularPorcentajeGastosIngresosCategoria(LocalDateTime.of(2000, 12, 8, 1,2,2), LocalDateTime.of(2030, 12, 8, 1,2,2),Categoria.VIAJES, true));
+
+        double valorEsperadoIngresos = (2000.0/2200.0)*100.0;
+        assertEquals(valorEsperadoIngresos, billeteraOrigen.calcularPorcentajeGastosIngresosCategoria(LocalDateTime.of(2000, 12, 8, 1,2,2), LocalDateTime.of(2030, 12, 8, 1,2,2),Categoria.VIAJES,false));
+
+    }
+
+    @Test
+    public void obtenerTransaccionesFiltradasFecha(){
+
+        transaccion1 = new Transaccion(200.0, LocalDateTime.of(2024, 9, 9, 12, 2, 2), "1234h", Categoria.VIAJES, billeteraDestino, billeteraOrigen);
+        transaccion2 = new Transaccion(400.0, LocalDateTime.of(2022, 9, 9, 12, 2, 2), "1234h", Categoria.GASOLINA, billeteraDestino, billeteraOrigen);
+        transaccion3 = new Transaccion(2000.0, LocalDateTime.of(2026, 9, 9, 12, 2, 2), "1234h", Categoria.VIAJES, billeteraOrigen, billeteraDestino);
+        billeteraOrigen.agregarTransaccion(transaccion1);
+        billeteraOrigen.agregarTransaccion(transaccion2);
+        billeteraOrigen.agregarTransaccion(transaccion3);
+        billeteraDestino.agregarTransaccion(transaccion1);
+        billeteraDestino.agregarTransaccion(transaccion2);
+        billeteraDestino.agregarTransaccion(transaccion3);
+
+        var listaEsperada = List.of(transaccion1, transaccion2);
+        assertIterableEquals(listaEsperada, billeteraDestino.obtenerTransaccionesFiltradasFecha(LocalDateTime.of(2020, 5, 4, 4, 4, 4), LocalDateTime.of(2025, 5, 4, 4, 4, 4)));
     }
 
 }

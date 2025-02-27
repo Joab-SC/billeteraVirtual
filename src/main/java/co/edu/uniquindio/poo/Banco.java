@@ -91,10 +91,10 @@ public class Banco {
     public boolean billeteraExistente(String codigo){
         for(BilleteraVirtual billetera: billeteras){
             if(billetera.getCodigo().equals(codigo)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**

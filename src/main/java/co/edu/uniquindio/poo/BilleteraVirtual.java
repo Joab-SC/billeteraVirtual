@@ -59,7 +59,7 @@ public class BilleteraVirtual {
      * Se agrega la transacción a la lista de transacciones
      */
 
-    private void agregarTransaccion(Transaccion transaccion){
+    public void agregarTransaccion(Transaccion transaccion){
         transacciones.add(transaccion);
     }
 
@@ -88,14 +88,14 @@ public class BilleteraVirtual {
     /**
      * Se verifica que tengasaldo suficiente para sealizar la transacción
      */
-    private boolean saldoSuficiente(double valor, int costo) {
+    public boolean saldoSuficiente(double valor, int costo) {
         return this.saldo >= (valor + costo);
     }
 
     /**
      * Se actualiza el saldo del Destino
      */
-    private void actualizarSaldos(BilleteraVirtual billeteraDestino, double valor, int costo) {
+    public void actualizarSaldos(BilleteraVirtual billeteraDestino, double valor, int costo) {
         this.saldo -= (valor + costo);
         billeteraDestino.setSaldo(billeteraDestino.getSaldo() + valor);
     }
@@ -113,7 +113,7 @@ public class BilleteraVirtual {
     /**
      * Se Inicializa la transaaccion
      */
-    private Transaccion crearTransaccion(double valor, int costo, Categoria categoria,
+    public Transaccion crearTransaccion(double valor, Categoria categoria,
             BilleteraVirtual billeteraDestino) {
         String codigoTransaccion = generarCodigoTransaccion();
         return new Transaccion(valor, LocalDateTime.now(), codigoTransaccion, categoria, billeteraDestino, this);
@@ -122,7 +122,7 @@ public class BilleteraVirtual {
     /**
      * Se verifica que el valor enviado sea positivo
      */
-    private boolean valorPositivo(double valor) {
+    public boolean valorPositivo(double valor) {
         return valor > 0;
     }
 
@@ -139,7 +139,7 @@ public class BilleteraVirtual {
         }
 
         actualizarSaldos(billeteraDestino, valor, costo);
-        Transaccion nuevaTransaccion = crearTransaccion(valor, costo, categoria, billeteraDestino);
+        Transaccion nuevaTransaccion = crearTransaccion(valor, categoria, billeteraDestino);
 
         agregarTransaccion(nuevaTransaccion);
         billeteraDestino.getTransacciones().add(nuevaTransaccion);
@@ -176,6 +176,9 @@ public class BilleteraVirtual {
 
     }
 
+    /**
+     * Calcular el porcentaje de gastos o ingresos segun la categoria con una bandera -> double
+     */
     public double calcularPorcentajeGastosIngresosCategoria (LocalDateTime fechaInicio, LocalDateTime fechaFinal, Categoria categoria,boolean gastos) throws Exception{
 
         if(fechaInicio.isAfter(fechaFinal)){
@@ -204,6 +207,9 @@ public class BilleteraVirtual {
 
     }
 
+    /**
+     * Obtener transacciones filtradas en dos fechas -> ArrayList<Transaccion>
+     */
     public ArrayList<Transaccion> obtenerTransaccionesFiltradasFecha(LocalDateTime fechaInicio, LocalDateTime fechaFinal){
         ArrayList<Transaccion> transaccionesFilatradas = new ArrayList<>();
         for(Transaccion transaccion : transacciones) {
@@ -214,6 +220,9 @@ public class BilleteraVirtual {
         return transaccionesFilatradas;
     }
 
+    /**
+     * Obtener las transacciones filtradas en dos fechas segun una categoria -> ArrayList<Transaccion>
+     */
     public ArrayList<Transaccion> obtenerTransaccionesFiltradasCategoria(LocalDateTime fechaInicio, LocalDateTime fechaFinal, Categoria categoria){
         ArrayList<Transaccion> transaccionesFiltradas = obtenerTransaccionesFiltradasFecha(fechaInicio, fechaFinal);
         ArrayList<Transaccion> transaccionesCategorias = new ArrayList<>();
